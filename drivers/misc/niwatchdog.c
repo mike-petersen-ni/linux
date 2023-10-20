@@ -474,7 +474,7 @@ static acpi_status niwatchdog_resources(struct acpi_resource *res, void *data)
 	}
 }
 
-static int niwatchdog_acpi_remove(struct acpi_device *device)
+static void niwatchdog_acpi_remove(struct acpi_device *device)
 {
 	struct niwatchdog *niwatchdog = device->driver_data;
 
@@ -482,8 +482,6 @@ static int niwatchdog_acpi_remove(struct acpi_device *device)
 
 	sysfs_remove_files(&niwatchdog->acpi_device->dev.kobj,
 			   niwatchdog_attrs);
-
-	return 0;
 }
 
 static int niwatchdog_acpi_add(struct acpi_device *device)

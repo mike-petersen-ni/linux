@@ -1327,11 +1327,9 @@ static void nirtfeatures_acpi_notify(struct acpi_device *device, u32 event)
 	   event);
 }
 
-static int nirtfeatures_acpi_remove(struct acpi_device *device)
+static void nirtfeatures_acpi_remove(struct acpi_device *device)
 {
 	sysfs_remove_files(&device->dev.kobj, nirtfeatures_attrs);
-
-	return 0;
 }
 
 static int nirtfeatures_wifi_regulator_list_voltage(struct regulator_dev *dev,
