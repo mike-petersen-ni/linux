@@ -314,6 +314,11 @@ int dwc3_core_soft_reset(struct dwc3 *dwc)
 	if (dwc->current_dr_role == DWC3_GCTL_PRTCAP_HOST)
 		return 0;
 
+	if (dwc->has_dsm_for_softreset) {
+		dev_dbg(dwc->dev, "calling dwc3_pci_dsm_soft_reset()");
+		return dwc3_pci_dsm_soft_reset(dwc->dev);
+	}
+
 	/*
 	 * If the dr_mode is host and the dwc->current_dr_role is not the
 	 * corresponding DWC3_GCTL_PRTCAP_HOST, then the dwc3_core_init_mode
@@ -349,11 +354,6 @@ int dwc3_core_soft_reset(struct dwc3 *dwc)
 		/* Wait for clock synchronization */
 		msleep(50);
 		return 0;
-	}
-
-	if (dwc->has_dsm_for_softreset) {
-		dev_dbg(dwc->dev, "calling dwc3_pci_dsm_soft_reset()");
-		return dwc3_pci_dsm_soft_reset(dwc->dev);
 	}
 
 	reg = dwc3_readl(dwc->regs, DWC3_DCTL);
